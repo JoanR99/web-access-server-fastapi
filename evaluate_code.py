@@ -11,6 +11,12 @@ def evaluate_html_code(code: str) -> list[TestResult]:
         techniques.t_h_32(soup),
         techniques.t_h_36_37(soup),
         techniques.t_h_44(soup),
+        techniques.t_h_57(soup),
+        techniques.t_h_63(soup),
+        techniques.t_h_64(soup),
+        techniques.t_h_93(soup),
+        techniques.t_h_95(soup),
+        techniques.t_h_96(soup),
     ]
     for result in first_results:
         if result is not None:
