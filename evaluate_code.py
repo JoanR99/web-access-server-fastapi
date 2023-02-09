@@ -3,8 +3,8 @@ import techniques
 from test_result import TestResult
 
 
-def evaluate_html_code(code: str) -> list[TestResult]:
-    soup = BeautifulSoup(code, "html.parser")
+def evaluate_html_code(code: str | bytes) -> list[TestResult]:
+    soup = BeautifulSoup(code, "html5lib")
     results: list[TestResult] = []
     first_results = [
         techniques.t_h_25(soup),

@@ -3,19 +3,26 @@ from test_result import TestResult
 
 
 def filter_submit_option(tag):
-    return (tag.name == "button" and tag["type"] == "submit") or (
-        tag.name == "input" and (tag["type"] == "submit" or tag["type"] == "image")
+    return (
+        tag.name == "button" and tag.has_attr("type") and tag["type"] == "submit"
+    ) or (
+        tag.name == "input"
+        and tag.has_attr("type")
+        and (tag["type"] == "submit" or tag["type"] == "image")
     )
 
 
 def filter_images(tag):
-    return (tag.name == "img") or (tag.name == "input" and tag["type"] == "image")
+    return (tag.name == "img") or (
+        tag.name == "input" and tag.has_attr("type") and tag["type"] == "image"
+    )
 
 
 def filter_inputs(tag):
     return (
         (
             tag.name == "input"
+            and tag.has_attr("type")
             and (
                 tag["type"] == "text"
                 or tag["type"] == "file"
