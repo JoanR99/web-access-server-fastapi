@@ -3,7 +3,7 @@ import techniques
 from results_classes import Results, TestResult
 
 
-def evaluate_html_code(code: str | bytes) -> Results:
+def evaluate_html_code(code: str) -> Results:
     soup = BeautifulSoup(code, "html5lib")
     elements_evaluated_count = 0
     errors_found_count = 0
