@@ -1,11 +1,14 @@
 from bs4 import BeautifulSoup
 import techniques
-from test_result import TestResult
+from results_classes import Results, TestResult
 
 
-def evaluate_html_code(code: str | bytes) -> list[TestResult]:
+def evaluate_html_code(code: str | bytes) -> Results:
     soup = BeautifulSoup(code, "html5lib")
-    results: list[TestResult] = []
+    elements_evaluated_count = 0
+    errors_found_count = 0
+    results_details = []
+
     first_results = [
         techniques.t_h_25(soup),
         techniques.t_h_32(soup),
@@ -20,6 +23,18 @@ def evaluate_html_code(code: str | bytes) -> list[TestResult]:
     ]
     for result in first_results:
         if result is not None:
-            results.append(result)
+            results_details.append(
+                TestResult(
+                    test_name=result.test_name,
+                    element_count=result.element_count,
+                    error_count=result.error_count,
+                )
+            )
+            elements_evaluated_count += result.element_count
+            errors_found_count += result.error_count
 
-    return results
+    return Results(
+        elements_evaluated_count=elements_evaluated_count,
+        errors_found_count=errors_found_count,
+        results_details=results_details,
+    )

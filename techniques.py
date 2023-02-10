@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup, Tag
-from test_result import TestResult
+from results_classes import TestResultBase
 
 
 def filter_submit_option(tag):
@@ -59,12 +59,12 @@ def t_h_25(html_doc: BeautifulSoup):
     head = html_doc.find("head")
 
     if not head:
-        return TestResult(test_name="H25", element_count=1, error_count=1)
+        return TestResultBase(test_name="H25", element_count=1, error_count=1)
 
     title = head.find("title")
 
     if not title or isinstance(title, Tag) and not title.string:
-        return TestResult(test_name="H25", element_count=1, error_count=1)
+        return TestResultBase(test_name="H25", element_count=1, error_count=1)
     else:
         return None
 
@@ -82,7 +82,7 @@ def t_h_32(html_doc: BeautifulSoup):
                 error_count = error_count + 1
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H32", element_count=element_count, error_count=error_count
             )
 
@@ -100,7 +100,7 @@ def t_h_36_37(html_doc: BeautifulSoup):
                 error_count = error_count + 1
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H36_H37",
                 element_count=element_count,
                 error_count=error_count,
@@ -143,7 +143,7 @@ def t_h_44(html_doc: BeautifulSoup):
                 error_count = error_count + 1
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H44", element_count=element_count, error_count=error_count
             )
 
@@ -156,7 +156,7 @@ def t_h_57(html_doc: BeautifulSoup):
     if isinstance(html, Tag) and (
         not html.has_attr("lang") or html["lang"].strip() == ""
     ):
-        return TestResult(test_name="H57", element_count=1, error_count=1)
+        return TestResultBase(test_name="H57", element_count=1, error_count=1)
 
     return None
 
@@ -177,7 +177,7 @@ def t_h_63(html_doc: BeautifulSoup):
                 error_count = error_count + 1
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H63", element_count=element_count, error_count=error_count
             )
 
@@ -195,7 +195,7 @@ def t_h_64(html_doc: BeautifulSoup):
                 error_count = error_count + 1
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H64", element_count=element_count, error_count=error_count
             )
 
@@ -217,7 +217,7 @@ def t_h_93(html_doc: BeautifulSoup):
         error_count = len(ids) - len(ids_set)
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H93", element_count=element_count, error_count=error_count
             )
 
@@ -235,7 +235,7 @@ def t_h_95(html_doc: BeautifulSoup):
         error_count = element_count - len(tracks_with_captions)
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H95", element_count=element_count, error_count=error_count
             )
 
@@ -253,7 +253,7 @@ def t_h_96(html_doc: BeautifulSoup):
         error_count = element_count - len(tracks_with_descriptions)
 
         if error_count > 0:
-            return TestResult(
+            return TestResultBase(
                 test_name="H96", element_count=element_count, error_count=error_count
             )
 

@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from evaluate_code import evaluate_html_code
-from test_result import TestResult
+from results_classes import Results
 import requests
 
 
@@ -19,14 +19,14 @@ class URL(BaseModel):
 app = FastAPI()
 
 
-@app.post("/evaluation/code")
-def evaluate_code(code: Code) -> list[TestResult]:
+@app.post("/api/evaluation/code")
+def evaluate_code(code: Code) -> Results:
     results = evaluate_html_code(code.code)
     return results
 
 
-@app.post("/evaluation/url")
-def evaluate_url(url: URL) -> list[TestResult]:
+@app.post("/api/evaluation/url")
+def evaluate_url(url: URL) -> Results:
     r = requests.get(url.url)
     results = evaluate_html_code(r.text)
     return results
