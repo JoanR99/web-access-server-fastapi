@@ -27,6 +27,6 @@ def evaluate_code(code: Code) -> Results:
 
 @app.post("/api/evaluation/url")
 def evaluate_url(url: URL) -> Results:
-    r = requests.get(url.url)
-    results = evaluate_html_code(r.text)
+    response = requests.get(url.url, timeout=1)
+    results = evaluate_html_code(response.text)
     return results
