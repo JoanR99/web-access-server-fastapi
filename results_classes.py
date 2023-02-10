@@ -2,6 +2,7 @@
 # pylint: disable=no-self-argument
 
 from pydantic import BaseModel
+from typing import List
 
 
 class TestResultBase:
@@ -20,4 +21,4 @@ class TestResult(BaseModel):
 class Results(BaseModel):
     elements_evaluated_count: int
     errors_found_count: int
-    results_details: list[TestResult]
+    results_details: List[TestResult]
