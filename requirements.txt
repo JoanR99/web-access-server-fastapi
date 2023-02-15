@@ -3,3 +3,4 @@ uvicorn
 requests
 html5lib
 beautifulsoup4
+pytest

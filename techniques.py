@@ -154,7 +154,7 @@ def t_h_57(html_doc: BeautifulSoup):
     html = html_doc.find("html")
 
     if isinstance(html, Tag) and (
-        not html.has_attr("lang") or html["lang"].strip() == ""
+        not html.has_attr("lang") or html.attrs["lang"].strip() == ""
     ):
         return TestResultBase(test_name="H57", element_count=1, error_count=1)
 
