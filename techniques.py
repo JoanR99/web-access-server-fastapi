@@ -202,13 +202,11 @@ def t_h_93(html_doc: BeautifulSoup):
     error_count = 0
 
     if element_count > 0:
-        ids = []
+        ids = set()
         for tag in tags_with_id:
-            ids.append(tag["id"])
+            ids.add(tag["id"])
 
-        ids_set = set(ids)
-
-        error_count = len(ids) - len(ids_set)
+        error_count = element_count - len(ids)
 
         if error_count > 0:
             return TestResultBase(

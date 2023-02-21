@@ -155,3 +155,189 @@ def test_h_44_success(html_code: str) -> None:
     result = techniques.t_h_44(soup)
 
     assert result is None
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    ["<html><body></body></html>", "<html lang=''><body></body></html>"],
+    ids=["Without lang", "With empty lang"],
+)
+def test_h_57_failures(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_57(soup)
+
+    assert result is not None
+    assert result.test_name == "H57"
+    assert result.element_count == 1
+    assert result.error_count == 1
+
+
+def test_h_57_success() -> None:
+    html_code = "<html lang='en'><body></body></html>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_57(soup)
+
+    assert result is None
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><table><tr><th scope='row'></th></tr></table></body></html>",
+        "<html><body><table><tr><th scope='col'></th></tr></table></body></html>",
+        "<html><body><table><tr><th scope='rowgroup'></th></tr></table></body></html>",
+        "<html><body><table><tr><th scope='colgroup'></th></tr></table></body></html>",
+    ],
+    ids=[
+        "Without table",
+        "th with scope row",
+        "th with scope col",
+        "th with scope rowgroup",
+        "th with scope colgroup",
+    ],
+)
+def test_h_63_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_63(soup)
+
+    assert result is None
+
+
+def test_h_63_failure() -> None:
+    html_code = "<table><tr><th></th></tr></table>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_63(soup)
+
+    assert result is not None
+    assert result.test_name == "H63"
+    assert result.element_count == 1
+    assert result.error_count == 1
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><iframe title='title' /></body></html>",
+    ],
+    ids=[
+        "Without iframe",
+        "iframe with title",
+    ],
+)
+def test_h_64_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_64(soup)
+
+    assert result is None
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body><iframe /></body></html>",
+        "<html><body><iframe title='' /></body></html>",
+    ],
+    ids=[
+        "iframe without title",
+        "iframe with empty title",
+    ],
+)
+def test_h_64_failure(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_64(soup)
+
+    assert result is not None
+    assert result.test_name == "H64"
+    assert result.element_count == 1
+    assert result.error_count == 1
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><p id='x'>x</p><p id='y'>y</p></body></html>",
+    ],
+    ids=[
+        "Without ids",
+        "Without repeated ids",
+    ],
+)
+def test_h_93_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_93(soup)
+
+    assert result is None
+
+
+def test_h_93_failure() -> None:
+    html_code = (
+        "<html><body><p id='x'>x</p><p id='x'>x</p><p id='y'>y</p></body></html>"
+    )
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_93(soup)
+
+    assert result is not None
+    assert result.test_name == "H93"
+    assert result.element_count == 3
+    assert result.error_count == 1
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><video><track kind='captions' /></video></body></html>",
+    ],
+    ids=[
+        "Without video",
+        "video with captions",
+    ],
+)
+def test_h_95_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_95(soup)
+
+    assert result is None
+
+
+def test_h_95_failure() -> None:
+    html_code = "<html><body><video></video></body></html>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_95(soup)
+
+    assert result is not None
+    assert result.test_name == "H95"
+    assert result.element_count == 1
+    assert result.error_count == 1
+
+
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><video><track kind='descriptions' /></video></body></html>",
+    ],
+    ids=[
+        "Without video",
+        "video with descriptions",
+    ],
+)
+def test_h_96_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_96(soup)
+
+    assert result is None
+
+
+def test_h_96_failure() -> None:
+    html_code = "<html><body><video></video></body></html>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_96(soup)
+
+    assert result is not None
+    assert result.test_name == "H96"
+    assert result.element_count == 1
+    assert result.error_count == 1
