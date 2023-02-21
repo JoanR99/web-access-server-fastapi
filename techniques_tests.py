@@ -1,9 +1,14 @@
 from bs4 import BeautifulSoup
+import pytest
 import techniques
 
 
-def test_h_25():
-    html_code = "<html><head></head></html>"
+@pytest.mark.parametrize(
+    "html_code",
+    ["<html><head></head></html>", "<html><head><title></title></head></html>"],
+    ids=["Without title", "With title empty"],
+)
+def test_h_25_failures(html_code: str) -> None:
     soup = BeautifulSoup(html_code, "html5lib")
     result = techniques.t_h_25(soup)
 
@@ -12,92 +17,141 @@ def test_h_25():
     assert result.element_count == 1
     assert result.error_count == 1
 
-    html_code2 = "<html><head><title></title></head></html>"
-    soup2 = BeautifulSoup(html_code2, "html5lib")
-    result2 = techniques.t_h_25(soup2)
 
-    assert result2 is not None
-    assert result2.test_name == "H25"
-    assert result2.element_count == 1
-    assert result2.error_count == 1
+def test_h_25_success() -> None:
+    html_code = "<html><head><title>title</title></head></html>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_25(soup)
 
-    html_code3 = "<html><head><title>title</title></head></html>"
-    soup3 = BeautifulSoup(html_code3, "html5lib")
-    result3 = techniques.t_h_25(soup3)
-
-    assert result3 is None
+    assert result is None
 
 
-def test_h_32():
-    html_code = "<html><body></body></html>"
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><form><input type='submit' /></form></body></html>",
+        "<html><body><form><input type='image' /></form></body></html>",
+        "<html><body><form><button type='submit' /></form></body></html>",
+    ],
+    ids=["Without form", "With submit input", "With image input", "with submit button"],
+)
+def test_h_32_success(html_code: str) -> None:
     soup = BeautifulSoup(html_code, "html5lib")
     result = techniques.t_h_32(soup)
 
     assert result is None
 
-    html_code2 = "<html><body><form></form></body></html>"
-    soup2 = BeautifulSoup(html_code2, "html5lib")
-    result2 = techniques.t_h_32(soup2)
 
-    assert result2 is not None
-    assert result2.test_name == "H32"
-    assert result2.element_count == 1
-    assert result2.error_count == 1
+def test_h_32_failure() -> None:
+    html_code = "<html><body><form></form></body></html>"
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_32(soup)
 
-    html_code3 = "<html><body><form><input type='submit' /></form></body></html>"
-    soup3 = BeautifulSoup(html_code3, "html5lib")
-    result3 = techniques.t_h_32(soup3)
-
-    assert result3 is None
-
-    html_code4 = "<html><body><form><input type='image' /></form></body></html>"
-    soup4 = BeautifulSoup(html_code4, "html5lib")
-    result4 = techniques.t_h_32(soup4)
-
-    assert result4 is None
-
-    html_code5 = "<html><body><form><button type='submit' /></form></body></html>"
-    soup5 = BeautifulSoup(html_code5, "html5lib")
-    result5 = techniques.t_h_32(soup5)
-
-    assert result5 is None
+    assert result is not None
+    assert result.test_name == "H32"
+    assert result.element_count == 1
+    assert result.error_count == 1
 
 
-def test_h_36_37():
-    html_code = "<html><body></body></html>"
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><img alt='alt'/></body></html>",
+        "<html><body><form><input type='image' alt='alt' /></form></body></html>",
+    ],
+    ids=["Without image", "With alt", "With input image alt"],
+)
+def test_h_36_37_success(html_code: str) -> None:
     soup = BeautifulSoup(html_code, "html5lib")
     result = techniques.t_h_36_37(soup)
 
     assert result is None
 
-    html_code2 = "<html><body><img /></body></html>"
-    soup2 = BeautifulSoup(html_code2, "html5lib")
-    result2 = techniques.t_h_36_37(soup2)
 
-    assert result2 is not None
-    assert result2.test_name == "H36_H37"
-    assert result2.element_count == 1
-    assert result2.error_count == 1
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body><img /></body></html>",
+        "<html><body><form><input type='image'/></form></body></html>",
+    ],
+    ids=["Without image alt", "With input image alt"],
+)
+def test_h_36_37_failure(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_36_37(soup)
 
-    html_code3 = "<html><body><form><input type='image'/></form></body></html>"
-    soup3 = BeautifulSoup(html_code3, "html5lib")
-    result3 = techniques.t_h_36_37(soup3)
+    assert result is not None
+    assert result.test_name == "H36_H37"
+    assert result.element_count == 1
+    assert result.error_count == 1
 
-    assert result3 is not None
-    assert result3.test_name == "H36_H37"
-    assert result3.element_count == 1
-    assert result3.error_count == 1
 
-    html_code4 = "<html><body><img alt='alt'/></body></html>"
-    soup4 = BeautifulSoup(html_code4, "html5lib")
-    result4 = techniques.t_h_36_37(soup4)
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body><form><input type='text' /></form></body></html>",
+        "<html><body><form><input type='file'/></form></body></html>",
+        "<html><body><form><input type='password'/></form></body></html>",
+        "<html><body><form><input type='checkbox'/></form></body></html>",
+        "<html><body><form><textarea></textarea></form></body></html>",
+        "<html><body><form><select>x</select></form></body></html>",
+        "<html><body><form><input type='text' id='x' /></form></body></html>",
+        "<html><body><form><input type='file' id='x'/></form></body></html>",
+        "<html><body><form><input type='password' id='x'/></form></body></html>",
+        "<html><body><form><input type='checkbox' id='x'/></form></body></html>",
+        "<html><body><form><textarea id='x'></textarea></form></body></html>",
+        "<html><body><form><select id='x'>x</select></form></body></html>",
+    ],
+    ids=[
+        "Text input without id",
+        "file input without id",
+        "password input without id",
+        "checkbox input without id",
+        "textarea without id",
+        "select without id",
+        "Text input without label",
+        "file input without label",
+        "password input without label",
+        "checkbox input without label",
+        "textarea without label",
+        "select without label",
+    ],
+)
+def test_h_44_failure(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_44(soup)
 
-    assert result4 is None
+    assert result is not None
+    assert result.test_name == "H44"
+    assert result.element_count == 1
+    assert result.error_count == 1
 
-    html_code5 = (
-        "<html><body><form><input type='image' alt='alt' /></form></body></html>"
-    )
-    soup5 = BeautifulSoup(html_code5, "html5lib")
-    result5 = techniques.t_h_36_37(soup5)
 
-    assert result5 is None
+@pytest.mark.parametrize(
+    "html_code",
+    [
+        "<html><body></body></html>",
+        "<html><body><form><label for='x'>x</label><input type='text' id='x' /></form></body></html>",
+        "<html><body><form><label for='x'>x</label><input type='file' id='x'/></form></body></html>",
+        "<html><body><form><label for='x'>x</label><input type='password' id='x'/></form></body></html>",
+        "<html><body><form><label for='x'>x</label><input type='checkbox' id='x'/></form></body></html>",
+        "<html><body><form><label for='x'>x</label><textarea id='x'></textarea></form></body></html>",
+        "<html><body><form><label for='x'>x</label><select id='x'>x</select></form></body></html>",
+    ],
+    ids=[
+        "Without inputs",
+        "Text input with label",
+        "file input with label",
+        "password input with label",
+        "checkbox input with label",
+        "textarea with label",
+        "select with label",
+    ],
+)
+def test_h_44_success(html_code: str) -> None:
+    soup = BeautifulSoup(html_code, "html5lib")
+    result = techniques.t_h_44(soup)
+
+    assert result is None

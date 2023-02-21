@@ -120,12 +120,6 @@ def t_h_44(html_doc: BeautifulSoup):
                 error_count = error_count + 1
                 continue
 
-            input_id = input_tag["id"]
-
-            if input_id is None or input_id.strip() == "":
-                error_count = error_count + 1
-                continue
-
             labels = html_doc.find_all("label")
 
             if len(labels) == 0:
@@ -135,7 +129,7 @@ def t_h_44(html_doc: BeautifulSoup):
             has_match = False
 
             for label in labels:
-                if label.has_attr("for") and label["for"] == input_id:
+                if label.has_attr("for") and label["for"] == input_tag["id"]:
                     has_match = True
                     break
 
