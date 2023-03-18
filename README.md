@@ -8,7 +8,7 @@ WebAccess is a webapp with two tools to help web developers create more accessib
 
 - [Repo](https://github.com/JoanR99/web-access-server-fastapi 'WebAccess Backend repo')
 - [Frontend](https://github.com/JoanR99/web-access-client-svelte 'WebAccess Frontend repo')
-- [Live Demo](https://web-access-client-svelte.vercel.app/ 'Live View')
+- [Live Demo](https://github.com/JoanR99/web-access-client 'Live View')
 
 &nbsp;
 

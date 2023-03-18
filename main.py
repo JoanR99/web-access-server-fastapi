@@ -20,8 +20,9 @@ class URL(BaseModel):
 app = FastAPI()
 
 origins = [
-    "https://web-access-client-svelte.vercel.app",
-    "https://web-access-client-svelte-romerojoan1999-gmailcom.vercel.app",
+    "https://web-access-client.vercel.app",
+    "https://web-access-client-romerojoan1999-gmailcom.vercel.app",
+    "https://web-access-client-git-main-romerojoan1999-gmailcom.vercel.app",
 ]
 
 app.add_middleware(
