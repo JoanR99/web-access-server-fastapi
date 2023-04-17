@@ -50,5 +50,5 @@ def evaluate_url(page_url: URL) -> Results:
         response = requests.get(page_url.url, timeout=1)
         results = evaluate_html_code(response.text)
         return results
-    except requests.exceptions.RequestException:
-        raise HTTPException(status_code=500, detail="something went wrong")
+    except requests.exceptions.RequestException as exc:
+        raise HTTPException(status_code=500, detail="something went wrong") from exc
